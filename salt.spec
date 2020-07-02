@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3001
-Release  : 2
+Release  : 3
 URL      : https://github.com/saltstack/salt/releases/download/v3001/salt-3001.tar.gz
 Source0  : https://github.com/saltstack/salt/releases/download/v3001/salt-3001.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system
@@ -23,6 +23,7 @@ Requires: PyYAML
 Requires: distro
 Requires: gnupg
 Requires: msgpack
+Requires: pycryptodomex
 Requires: python-dateutil
 Requires: pyzmq
 Requires: requests
@@ -122,7 +123,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1593630199
+export SOURCE_DATE_EPOCH=1593715323
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -138,6 +139,7 @@ python3 setup.py build
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/salt
+cp %{_builddir}/salt-3001/LICENSE %{buildroot}/usr/share/package-licenses/salt/6978530288aea130c74f58c3ac75f9abce102e06
 cp %{_builddir}/salt-3001/pkg/osx/pkg-resources/license.rtf %{buildroot}/usr/share/package-licenses/salt/5ac0caf8c8f8209b518d0ac5d21e5d27051d1676
 cp %{_builddir}/salt-3001/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
 python3 -tt setup.py build  install --root=%{buildroot}
@@ -168,6 +170,7 @@ echo ----[ mark ]----
 %files license
 %defattr(0644,root,root,0755)
 /usr/share/package-licenses/salt/5ac0caf8c8f8209b518d0ac5d21e5d27051d1676
+/usr/share/package-licenses/salt/6978530288aea130c74f58c3ac75f9abce102e06
 /usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
 
 %files man

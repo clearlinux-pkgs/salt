@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3001
-Release  : 3
+Release  : 4
 URL      : https://github.com/saltstack/salt/releases/download/v3001/salt-3001.tar.gz
 Source0  : https://github.com/saltstack/salt/releases/download/v3001/salt-3001.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system
@@ -39,6 +39,7 @@ BuildRequires : msgpack
 BuildRequires : python-dateutil
 BuildRequires : pyzmq
 BuildRequires : requests
+Patch1: 57571.patch
 
 %description
 What is SaltStack?
@@ -117,13 +118,14 @@ python3 components for the salt package.
 %prep
 %setup -q -n salt-3001
 cd %{_builddir}/salt-3001
+%patch1 -p1
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1593715323
+export SOURCE_DATE_EPOCH=1593725925
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib

@@ -1,0 +1,21 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Patrick McCarty <patrick.mccarty@intel.com>
+Date: Thu, 24 Jun 2021 14:17:42 -0700
+Subject: [PATCH] Remove dep on contextvars
+
+This package has been part of the stdlib since 3.7...
+
+Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
+---
+ requirements/base.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/requirements/base.txt b/requirements/base.txt
+index 96037cc..712dcca 100644
+--- a/requirements/base.txt
++++ b/requirements/base.txt
+@@ -4,4 +4,3 @@ PyYAML
+ MarkupSafe
+ requests>=1.0.0
+ distro>=1.0.1
+-contextvars

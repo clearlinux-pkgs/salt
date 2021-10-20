@@ -11,11 +11,12 @@ Signed-off-by: Patrick McCarty <patrick.mccarty@intel.com>
  1 file changed, 1 deletion(-)
 
 diff --git a/requirements/base.txt b/requirements/base.txt
-index 96037cc..712dcca 100644
+index 1fd7507..9de6e33 100644
 --- a/requirements/base.txt
 +++ b/requirements/base.txt
-@@ -4,4 +4,3 @@ PyYAML
+@@ -4,5 +4,4 @@ PyYAML
  MarkupSafe
  requests>=1.0.0
  distro>=1.0.1
 -contextvars
+ psutil>=5.0.0

@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3004
-Release  : 21
+Release  : 22
 URL      : https://github.com/saltstack/salt/releases/download/v3004/salt-3004.tar.gz
 Source0  : https://github.com/saltstack/salt/releases/download/v3004/salt-3004.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system
@@ -107,7 +107,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634767579
+export SOURCE_DATE_EPOCH=1634770696
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -117,6 +117,7 @@ export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 export MAKEFLAGS=%{?_smp_mflags}
+pypi-dep-fix.py . pyzmq
 python3 setup.py build
 
 %install
@@ -128,6 +129,7 @@ cp %{_builddir}/salt-3004/pkg/osx/pkg-resources/license.rtf %{buildroot}/usr/sha
 cp %{_builddir}/salt-3004/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
 cp %{_builddir}/salt-3004/tests/pytests/unit/modules/sol10_pkg/bashs/SUNWbashS/install/copyright %{buildroot}/usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8
 python3 -tt setup.py build  install --root=%{buildroot}
+pypi-dep-fix.py %{buildroot} pyzmq
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----

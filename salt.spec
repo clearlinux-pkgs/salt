@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3004
-Release  : 25
+Release  : 26
 URL      : https://github.com/saltstack/salt/releases/download/v3004/salt-3004.tar.gz
 Source0  : https://github.com/saltstack/salt/releases/download/v3004/salt-3004.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system

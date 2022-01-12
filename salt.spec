@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3004
-Release  : 26
+Release  : 27
 URL      : https://github.com/saltstack/salt/releases/download/v3004/salt-3004.tar.gz
 Source0  : https://github.com/saltstack/salt/releases/download/v3004/salt-3004.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system
@@ -15,25 +15,19 @@ Requires: salt-license = %{version}-%{release}
 Requires: salt-man = %{version}-%{release}
 Requires: salt-python = %{version}-%{release}
 Requires: salt-python3 = %{version}-%{release}
-Requires: Jinja2
-Requires: MarkupSafe
-Requires: PyYAML
-Requires: distro
-Requires: msgpack
-Requires: psutil
-Requires: pycryptodomex
-Requires: pyzmq
-Requires: requests
-BuildRequires : Jinja2
-BuildRequires : MarkupSafe
-BuildRequires : PyYAML
+Requires: pypi(pycryptodomex)
 BuildRequires : buildreq-distutils3
 BuildRequires : distro
-BuildRequires : msgpack
-BuildRequires : psutil
-BuildRequires : pycryptodomex
-BuildRequires : pyzmq
-BuildRequires : requests
+BuildRequires : pypi(contextvars)
+BuildRequires : pypi(distro)
+BuildRequires : pypi(jinja2)
+BuildRequires : pypi(markupsafe)
+BuildRequires : pypi(msgpack)
+BuildRequires : pypi(psutil)
+BuildRequires : pypi(pycryptodomex)
+BuildRequires : pypi(pyyaml)
+BuildRequires : pypi(pyzmq)
+BuildRequires : pypi(requests)
 Patch1: 0001-Remove-dep-on-contextvars.patch
 
 %description
@@ -107,7 +101,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1634770696
+export SOURCE_DATE_EPOCH=1641948550
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -118,7 +112,7 @@ export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
 export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
 export MAKEFLAGS=%{?_smp_mflags}
 pypi-dep-fix.py . pyzmq
-python3 setup.py build
+python3 -m build --wheel --skip-dependency-check --no-isolation
 
 %install
 export MAKEFLAGS=%{?_smp_mflags}
@@ -128,7 +122,7 @@ cp %{_builddir}/salt-3004/LICENSE %{buildroot}/usr/share/package-licenses/salt/c
 cp %{_builddir}/salt-3004/pkg/osx/pkg-resources/license.rtf %{buildroot}/usr/share/package-licenses/salt/906ed1fd66d444e951c0f5f38131d1dd61dfcf7c
 cp %{_builddir}/salt-3004/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
 cp %{_builddir}/salt-3004/tests/pytests/unit/modules/sol10_pkg/bashs/SUNWbashS/install/copyright %{buildroot}/usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8
-python3 -tt setup.py build  install --root=%{buildroot}
+pip install --root=%{buildroot} --no-deps --ignore-installed dist/*.whl
 pypi-dep-fix.py %{buildroot} pyzmq
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :

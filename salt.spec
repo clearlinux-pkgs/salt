@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3004.2
-Release  : 33
+Release  : 34
 URL      : https://github.com/saltstack/salt/releases/download/v3004.2/salt-3004.2.tar.gz
 Source0  : https://github.com/saltstack/salt/releases/download/v3004.2/salt-3004.2.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system
@@ -17,7 +17,6 @@ Requires: salt-python = %{version}-%{release}
 Requires: salt-python3 = %{version}-%{release}
 Requires: pypi(pycryptodomex)
 BuildRequires : buildreq-distutils3
-BuildRequires : distro
 BuildRequires : pypi(contextvars)
 BuildRequires : pypi(distro)
 BuildRequires : pypi(jinja2)
@@ -28,6 +27,7 @@ BuildRequires : pypi(pycryptodomex)
 BuildRequires : pypi(pyyaml)
 BuildRequires : pypi(pyzmq)
 BuildRequires : pypi(requests)
+BuildRequires : pypi-distro
 Patch1: 0001-Remove-dep-on-contextvars.patch
 
 %description
@@ -79,6 +79,7 @@ Requires: python3-core
 Provides: pypi(salt)
 Requires: pypi(distro)
 Requires: pypi(jinja2)
+Requires: pypi(jmespath)
 Requires: pypi(markupsafe)
 Requires: pypi(msgpack)
 Requires: pypi(psutil)
@@ -104,7 +105,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1656377304
+export SOURCE_DATE_EPOCH=1666902206
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -117,8 +118,8 @@ export MAKEFLAGS=%{?_smp_mflags}
 pypi-dep-fix.py . pyzmq
 python3 -m build --wheel --skip-dependency-check --no-isolation
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 -msse2avx"
-export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 -msse2avx "
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
 export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3 "
@@ -131,10 +132,10 @@ popd
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/salt
-cp %{_builddir}/salt-3004.2/LICENSE %{buildroot}/usr/share/package-licenses/salt/c0f0fb1c856a87d9fc4a59bd2ec0d6b19907a94f
-cp %{_builddir}/salt-3004.2/pkg/osx/pkg-resources/license.rtf %{buildroot}/usr/share/package-licenses/salt/906ed1fd66d444e951c0f5f38131d1dd61dfcf7c
-cp %{_builddir}/salt-3004.2/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
-cp %{_builddir}/salt-3004.2/tests/pytests/unit/modules/sol10_pkg/bashs/SUNWbashS/install/copyright %{buildroot}/usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8
+cp %{_builddir}/salt-%{version}/LICENSE %{buildroot}/usr/share/package-licenses/salt/c0f0fb1c856a87d9fc4a59bd2ec0d6b19907a94f || :
+cp %{_builddir}/salt-%{version}/pkg/osx/pkg-resources/license.rtf %{buildroot}/usr/share/package-licenses/salt/906ed1fd66d444e951c0f5f38131d1dd61dfcf7c || :
+cp %{_builddir}/salt-%{version}/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6 || :
+cp %{_builddir}/salt-%{version}/tests/pytests/unit/modules/sol10_pkg/bashs/SUNWbashS/install/copyright %{buildroot}/usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8 || :
 pip install --root=%{buildroot} --no-deps --ignore-installed dist/*.whl
 pypi-dep-fix.py %{buildroot} pyzmq
 echo ----[ mark ]----

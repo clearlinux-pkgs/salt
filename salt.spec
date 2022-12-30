@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3005.1.2
-Release  : 35
+Release  : 36
 URL      : https://github.com/saltstack/salt/archive/v3005.1-2/salt-3005.1.2.tar.gz
 Source0  : https://github.com/saltstack/salt/archive/v3005.1-2/salt-3005.1.2.tar.gz
 Summary  : A parallel remote execution system
@@ -18,6 +18,9 @@ Requires: salt-python3 = %{version}-%{release}
 Requires: pypi(pycryptodomex)
 BuildRequires : buildreq-distutils3
 BuildRequires : pypi-distro
+# Suppress stripping binaries
+%define __strip /bin/true
+%define debug_package %{nil}
 Patch1: 0001-Remove-dep-on-contextvars.patch
 
 %description
@@ -66,6 +69,15 @@ python components for the salt package.
 Summary: python3 components for the salt package.
 Group: Default
 Requires: python3-core
+Requires: Requires: pypi(distro)
+Requires: Requires: pypi(jinja2)
+Requires: Requires: pypi(jmespath)
+Requires: Requires: pypi(markupsafe)
+Requires: Requires: pypi(msgpack)
+Requires: Requires: pypi(psutil)
+Requires: Requires: pypi(pyyaml)
+Requires: Requires: pypi(pyzmq)
+Requires: Requires: pypi(requests)
 
 %description python3
 python3 components for the salt package.
@@ -77,7 +89,6 @@ cd %{_builddir}/salt-3005.1-2
 %patch1 -p1
 pushd ..
 cp -a salt-3005.1-2 buildavx2
-cp -a salt-3005.1-2 buildavx512
 popd
 
 %build
@@ -85,20 +96,20 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1672200677
+export SOURCE_DATE_EPOCH=1672393585
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FCFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export FFLAGS="$FFLAGS -O3 -ffat-lto-objects -flto=auto "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=auto "
+export CFLAGS="$CFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FCFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export FFLAGS="$FFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CXXFLAGS="$CXXFLAGS -O3 -fdebug-types-section -femit-struct-debug-baseonly -ffat-lto-objects -flto=auto -g1 -gno-column-info -gno-variable-location-views -gz "
 export MAKEFLAGS=%{?_smp_mflags}
 pypi-dep-fix.py . pyzmq
 python3 -m build --wheel --skip-dependency-check --no-isolation
 pushd ../buildavx2/
-export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 -msse2avx "
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3 "
 export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3 "
@@ -112,8 +123,10 @@ popd
 export MAKEFLAGS=%{?_smp_mflags}
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/salt
-cp %{_builddir}/salt-3005.1-2/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
-cp %{_builddir}/salt-3005.1-2/tests/pytests/unit/modules/sol10_pkg/bashs/SUNWbashS/install/copyright %{buildroot}/usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8
+cp %{_builddir}/salt-3005.1-2/LICENSE %{buildroot}/usr/share/package-licenses/salt/372cceb117b31a95566c62764361fd483c1aabf4 || :
+cp %{_builddir}/salt-3005.1-2/pkg/osx/pkg-resources/license.rtf %{buildroot}/usr/share/package-licenses/salt/bc344bff88b63a4ea9ee49fd57a16b8aa1f7c607 || :
+cp %{_builddir}/salt-3005.1-2/pkg/windows/installer/LICENSE.txt %{buildroot}/usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6 || :
+cp %{_builddir}/salt-3005.1-2/tests/pytests/unit/modules/sol10_pkg/bashs/SUNWbashS/install/copyright %{buildroot}/usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8 || :
 pip install --root=%{buildroot} --no-deps --ignore-installed dist/*.whl
 pypi-dep-fix.py %{buildroot} pyzmq
 echo ----[ mark ]----
@@ -150,8 +163,10 @@ popd
 
 %files license
 %defattr(0644,root,root,0755)
+/usr/share/package-licenses/salt/372cceb117b31a95566c62764361fd483c1aabf4
 /usr/share/package-licenses/salt/712d25aaeea79cb25612195315109efc884cc5d6
 /usr/share/package-licenses/salt/869dfc8f2ae39a287e88ffca20966beab5b08ab8
+/usr/share/package-licenses/salt/bc344bff88b63a4ea9ee49fd57a16b8aa1f7c607
 
 %files man
 %defattr(0644,root,root,0755)

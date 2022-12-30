@@ -4,7 +4,7 @@
 #
 Name     : salt
 Version  : 3005.1.2
-Release  : 36
+Release  : 37
 URL      : https://github.com/saltstack/salt/archive/v3005.1-2/salt-3005.1.2.tar.gz
 Source0  : https://github.com/saltstack/salt/archive/v3005.1-2/salt-3005.1.2.tar.gz
 Summary  : A parallel remote execution system
@@ -69,15 +69,15 @@ python components for the salt package.
 Summary: python3 components for the salt package.
 Group: Default
 Requires: python3-core
-Requires: Requires: pypi(distro)
-Requires: Requires: pypi(jinja2)
-Requires: Requires: pypi(jmespath)
-Requires: Requires: pypi(markupsafe)
-Requires: Requires: pypi(msgpack)
-Requires: Requires: pypi(psutil)
-Requires: Requires: pypi(pyyaml)
-Requires: Requires: pypi(pyzmq)
-Requires: Requires: pypi(requests)
+Requires: pypi(distro)
+Requires: pypi(jinja2)
+Requires: pypi(jmespath)
+Requires: pypi(markupsafe)
+Requires: pypi(msgpack)
+Requires: pypi(psutil)
+Requires: pypi(pyyaml)
+Requires: pypi(pyzmq)
+Requires: pypi(requests)
 
 %description python3
 python3 components for the salt package.
@@ -96,7 +96,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1672393585
+export SOURCE_DATE_EPOCH=1672414304
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib

@@ -7,7 +7,7 @@
 #
 Name     : salt
 Version  : 3006.3
-Release  : 38
+Release  : 39
 URL      : https://github.com/saltstack/salt/archive/v3006.3/salt-3006.3.tar.gz
 Source0  : https://github.com/saltstack/salt/archive/v3006.3/salt-3006.3.tar.gz
 Summary  : Portable, distributed, remote execution and configuration management system
@@ -103,7 +103,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1697576418
+export SOURCE_DATE_EPOCH=1697587955
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
